@@ -1,0 +1,22 @@
+{% extends 'django_app/base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>{{ chart.name }}</h2>
+    {% if analysis %}
+        <h3>Visual Description</h3>
+        <p>{{ analysis.visual_description }}</p>
+
+        <h3>Pattern Analysis</h3>
+        <p>{{ analysis.pattern_analysis }}</p>
+
+        <h3>Humorous Prediction</h3>
+        <p>{{ analysis.humorous_prediction }}</p>
+
+        <h3>Technical Explanation</h3>
+        <p>{{ analysis.technical_explanation }}</p>
+    {% else %}
+        <p>No analysis available yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

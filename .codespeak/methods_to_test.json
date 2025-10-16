@@ -1,0 +1,130 @@
+{
+    "django_app/ai_service.py": [
+        {
+            "method": {
+                "enclosing_classes": [
+                    "ChartAnalysisService"
+                ],
+                "method_name": "__init__"
+            },
+            "kind": "unit_tests"
+        },
+        {
+            "method": {
+                "enclosing_classes": [
+                    "ChartAnalysisService"
+                ],
+                "method_name": "_parse_analysis_response"
+            },
+            "kind": "unit_tests"
+        },
+        {
+            "method": {
+                "enclosing_classes": [],
+                "method_name": "_read_config_parameter"
+            },
+            "kind": "unit_tests"
+        },
+        {
+            "method": {
+                "enclosing_classes": [
+                    "ChartAnalysisService"
+                ],
+                "method_name": "analyze_chart"
+            },
+            "kind": "external_api_tests"
+        },
+        {
+            "method": {
+                "enclosing_classes": [],
+                "method_name": "analyze_chart_image"
+            },
+            "kind": "unit_tests"
+        },
+        {
+            "method": {
+                "enclosing_classes": [],
+                "method_name": "create_analysis_prompt"
+            },
+            "kind": "unit_tests"
+        },
+        {
+            "method": {
+                "enclosing_classes": [],
+                "method_name": "encode_image"
+            },
+            "kind": "unit_tests"
+        },
+        {
+            "method": {
+                "enclosing_classes": [],
+                "method_name": "get_few_shot_examples"
+            },
+            "kind": "unit_tests"
+        }
+    ],
+    "django_app/models.py": [
+        {
+            "method": {
+                "enclosing_classes": [
+                    "ChartUpload"
+                ],
+                "method_name": "__str__"
+            },
+            "kind": "unit_tests"
+        },
+        {
+            "method": {
+                "enclosing_classes": [
+                    "ChartAnalysis"
+                ],
+                "method_name": "__str__"
+            },
+            "kind": "unit_tests"
+        }
+    ],
+    "django_app/views.py": [
+        {
+            "method": {
+                "enclosing_classes": [],
+                "method_name": "api_analysis"
+            },
+            "kind": "endpoint_tests"
+        },
+        {
+            "method": {
+                "enclosing_classes": [],
+                "method_name": "gallery"
+            },
+            "kind": "endpoint_tests"
+        },
+        {
+            "method": {
+                "enclosing_classes": [],
+                "method_name": "handle_chart_upload"
+            },
+            "kind": "endpoint_tests"
+        },
+        {
+            "method": {
+                "enclosing_classes": [],
+                "method_name": "home"
+            },
+            "kind": "endpoint_tests"
+        },
+        {
+            "method": {
+                "enclosing_classes": [],
+                "method_name": "upload_chart"
+            },
+            "kind": "endpoint_tests"
+        },
+        {
+            "method": {
+                "enclosing_classes": [],
+                "method_name": "view_analysis"
+            },
+            "kind": "endpoint_tests"
+        }
+    ]
+}

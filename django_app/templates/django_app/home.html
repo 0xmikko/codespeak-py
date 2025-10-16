@@ -1,0 +1,94 @@
+{% extends 'django_app/base.html' %}
+
+{% block content %}
+<div class="card" style="text-align: center; margin-bottom: 3rem;">
+    <h1 style="font-size: 3rem; margin-bottom: 1rem; color: #667eea;">🔮 Financial Horoscope</h1>
+    <p style="font-size: 1.2rem; margin-bottom: 2rem; color: #666;">
+        Upload your financial charts and let our AI fortune teller reveal the hidden patterns and cosmic market signals!
+    </p>
+    <a href="{% url 'upload_chart' %}" class="btn" style="font-size: 1.1rem; padding: 1rem 3rem;">
+        📈 Upload Your Chart
+    </a>
+</div>
+
+<div class="card">
+    <h2 style="margin-bottom: 1.5rem; color: #667eea;">✨ How It Works</h2>
+    <div class="grid grid-3">
+        <div style="text-align: center; padding: 1rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">📤</div>
+            <h3 style="color: #667eea; margin-bottom: 0.5rem;">1. Upload</h3>
+            <p>Upload your PNG or JPEG chart image (up to 10MB)</p>
+        </div>
+        <div style="text-align: center; padding: 1rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🤖</div>
+            <h3 style="color: #667eea; margin-bottom: 0.5rem;">2. AI Analysis</h3>
+            <p>Our AI analyzes patterns and creates humorous predictions</p>
+        </div>
+        <div style="text-align: center; padding: 1rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🎭</div>
+            <h3 style="color: #667eea; margin-bottom: 0.5rem;">3. Enjoy</h3>
+            <p>Get entertaining technical analysis with creative insights</p>
+        </div>
+    </div>
+</div>
+
+{% if recent_charts %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2 style="color: #667eea;">🎪 Recent Chart Readings</h2>
+        <a href="{% url 'gallery' %}" class="btn btn-secondary">View All</a>
+    </div>
+
+    <div class="grid grid-2">
+        {% for chart in recent_charts %}
+        <div style="border: 2px solid #f0f0f0; border-radius: 10px; overflow: hidden; transition: all 0.3s ease;"
+             onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 15px 35px rgba(0,0,0,0.1)'"
+             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+
+            <div style="position: relative;">
+                <img src="{{ chart.image.url }}" alt="{{ chart.name }}"
+                     style="width: 100%; height: 200px; object-fit: cover;">
+                <div style="position: absolute; top: 10px; right: 10px; background: rgba(102, 126, 234, 0.9); color: white; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.8rem;">
+                    ✅ Analyzed
+                </div>
+            </div>
+
+            <div style="padding: 1rem;">
+                <h4 style="color: #667eea; margin-bottom: 0.5rem;">{{ chart.name }}</h4>
+                <p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">
+                    {{ chart.uploaded_at|date:"M d, Y - H:i" }}
+                </p>
+
+                {% if chart.analysis %}
+                <p style="font-size: 0.9rem; color: #333; line-height: 1.4; margin-bottom: 1rem;">
+                    {{ chart.analysis.pattern_analysis|truncatewords:15 }}
+                </p>
+                {% endif %}
+
+                <a href="{% url 'view_analysis' chart.id %}" class="btn" style="font-size: 0.9rem; padding: 0.5rem 1.5rem;">
+                    🔍 View Analysis
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<div class="card" style="text-align: center;">
+    <h2 style="color: #667eea; margin-bottom: 1rem;">📊 No Charts Yet</h2>
+    <p style="color: #666; margin-bottom: 2rem;">
+        Be the first to upload a chart and discover what the market spirits have to say!
+    </p>
+    <a href="{% url 'upload_chart' %}" class="btn">Get Started</a>
+</div>
+{% endif %}
+
+<div class="card" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); text-align: center;">
+    <h2 style="color: #667eea; margin-bottom: 1rem;">⚠️ Disclaimer</h2>
+    <p style="color: #666; font-style: italic;">
+        This is purely for entertainment purposes. Our AI creates humorous, fictional analysis.
+        Do not use this for actual financial decisions. Always consult real financial advisors
+        for serious investment guidance. We're just here to make chart analysis fun! 🎪
+    </p>
+</div>
+{% endblock %}

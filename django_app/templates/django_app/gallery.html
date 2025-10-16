@@ -1,0 +1,21 @@
+{% extends 'django_app/base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>Gallery</h2>
+    {% if charts %}
+        <div class="grid">
+            {% for chart in charts %}
+                <div class="card">
+                    <h3>{{ chart.name }}</h3>
+                    <p>Status: {{ chart.analysis_status }}</p>
+                    <p>Uploaded: {{ chart.uploaded_at|date:"M d, Y" }}</p>
+                    <a href="{% url 'view_analysis' chart.id %}" class="btn">View</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No charts uploaded yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,117 @@
+{
+    "meta": {
+        "schema": {
+            "spec": {
+                "type": "file",
+                "relative_path": "spec.processed.md",
+                "format": "text",
+                "by_phase": "ProcessSpec"
+            },
+            "external_apis": {
+                "type": "file",
+                "relative_path": "external_apis.json",
+                "format": "json",
+                "by_phase": "AnalyzeExternalApis"
+            },
+            "methods_to_test": {
+                "type": "file",
+                "relative_path": "methods_to_test.json",
+                "format": "json",
+                "by_phase": "AnalyzeAndPlanTests"
+            },
+            "methods_to_test_raw": {
+                "type": "file",
+                "relative_path": "methods_to_test_raw.json",
+                "format": "json",
+                "by_phase": "AnalyzeAndPlanTests"
+            },
+            "test_reports": {
+                "type": "file",
+                "relative_path": "test_reports.txt",
+                "format": "text",
+                "by_phase": "GenerateAndRunTests"
+            },
+            "sha_to_checkpoint": {
+                "type": "file",
+                "relative_path": "sha_to_checkpoint.json",
+                "format": "json"
+            }
+        },
+        "version": "0.2.0"
+    },
+    "phases_state": {
+        "spec_file": "spec/main.cs.md",
+        "spec": "spec.processed.md",
+        "criteria": {
+            "console_application": false,
+            "desktop_application": false,
+            "embedded_application": false,
+            "has_django": true,
+            "has_external_apis": true,
+            "has_javascript": true,
+            "has_node_js": false,
+            "has_python": true,
+            "has_server": true,
+            "has_social_logins": false,
+            "has_sql_database": true,
+            "library": false,
+            "mobile_application": false,
+            "server": false,
+            "serverless_application": false,
+            "web_application": true
+        },
+        "external_apis": "external_apis.json",
+        "commit_message": "Implement Financial Horoscope AI chart analysis service",
+        "methods_to_test_raw": "methods_to_test_raw.json",
+        "methods_to_test": "methods_to_test.json",
+        "test_reports": "test_reports.txt"
+    },
+    "phase_manager": {
+        "history": [
+            {
+                "checkpoint": "{\"run\":{\"id\":\"53f3acd1-9390-43c7-9805-6da489785253\",\"kind\":\"build\"},\"phase_id\":\"Init\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T11:28:20.809405+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"53f3acd1-9390-43c7-9805-6da489785253\",\"kind\":\"build\"},\"phase_id\":\"ProcessSpec\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T11:28:20.822370+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"53f3acd1-9390-43c7-9805-6da489785253\",\"kind\":\"build\"},\"phase_id\":\"EvaluateCriteria\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T11:28:35.267274+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"53f3acd1-9390-43c7-9805-6da489785253\",\"kind\":\"build\"},\"phase_id\":\"AnalyzeExternalApis\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T11:28:51.848947+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"53f3acd1-9390-43c7-9805-6da489785253\",\"kind\":\"build\"},\"phase_id\":\"CheckExternalApisConfigurationFile\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T11:28:51.866075+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"53f3acd1-9390-43c7-9805-6da489785253\",\"kind\":\"build\"},\"phase_id\":\"SetupProject\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T11:28:55.220433+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"53f3acd1-9390-43c7-9805-6da489785253\",\"kind\":\"build\"},\"phase_id\":\"ImplementSpecWithClaudeCode\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T11:36:15.932659+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"53f3acd1-9390-43c7-9805-6da489785253\",\"kind\":\"build\"},\"phase_id\":\"FeedbackLoopWithClaudeCode\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T11:36:18.542115+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"53f3acd1-9390-43c7-9805-6da489785253\",\"kind\":\"build\"},\"phase_id\":\"AnalyzeAndPlanTests\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T11:36:39.827456+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"53f3acd1-9390-43c7-9805-6da489785253\",\"kind\":\"build\"},\"phase_id\":\"GenerateAndRunTests\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T11:46:17.283095+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"53f3acd1-9390-43c7-9805-6da489785253\",\"kind\":\"build\"},\"phase_id\":\"Done\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T11:46:17.301564+00:00"
+            }
+        ]
+    }
+}
