@@ -67,13 +67,13 @@
             "web_application": true
         },
         "external_apis": "external_apis.json",
-        "commit_message": "Display chart image in prediction view",
+        "commit_message": "Show only humorous prediction in analysis view",
         "methods_to_test_raw": "methods_to_test_raw.json",
         "methods_to_test": "methods_to_test.json",
         "test_reports": "test_reports.txt",
         "change_request": "",
         "implemented_change_requests": "implemented_change_requests.json",
-        "spec_diff": "--- +++ @@ -6,4 +6,7 @@ ## User flow\n User can upload a graph in PNG / JPEG format, then backend analyses it and write an explanation in format of technical analysys. Something like \"I can see a lion figure on the graph, so...\". User chatGPT and other AI-related agent libraries when needed to create a creative repsonses with graph. The best result - a graph with fun tech analysis and comments with great sens of humour. \n \n-I understand that probably, the system should have some great examples - to make mutliple-shot training, make a python file with list of examples, I can fill it manually.+I understand that probably, the system should have some great examples - to make mutliple-shot training, make a python file with list of examples, I can fill it manually.\n+\n+### Prediciton view\n+When prediction is done, the app show show initial picture and humour predicion."
+        "spec_diff": "--- +++ @@ -9,4 +9,4 @@ I understand that probably, the system should have some great examples - to make mutliple-shot training, make a python file with list of examples, I can fill it manually.\n \n ### Prediciton view\n-When prediction is done, the app show show initial picture and humour predicion.+When prediction is done, the app show show initial picture and Humorous Prediction only"
     },
     "phase_manager": {
         "history": [
@@ -184,6 +184,50 @@
             {
                 "checkpoint": "{\"run\":{\"id\":\"a8430b3b-abcd-42ea-9f29-1cba6d34b0f7\",\"kind\":\"build\"},\"phase_id\":\"Done\",\"additional_id\":null}",
                 "timestamp": "2025-10-16T16:55:04.469459+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"99266a56-b7cf-4294-a290-72530e1371bc\",\"kind\":\"build\"},\"phase_id\":\"Init\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T17:39:35.946211+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"99266a56-b7cf-4294-a290-72530e1371bc\",\"kind\":\"build\"},\"phase_id\":\"ProcessSpec\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T17:39:35.995768+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"99266a56-b7cf-4294-a290-72530e1371bc\",\"kind\":\"build\"},\"phase_id\":\"EvaluateCriteria\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T17:39:50.146267+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"99266a56-b7cf-4294-a290-72530e1371bc\",\"kind\":\"build\"},\"phase_id\":\"AnalyzeExternalApis\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T17:40:04.539495+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"99266a56-b7cf-4294-a290-72530e1371bc\",\"kind\":\"build\"},\"phase_id\":\"CheckExternalApisConfigurationFile\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T17:40:04.567118+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"99266a56-b7cf-4294-a290-72530e1371bc\",\"kind\":\"build\"},\"phase_id\":\"SetupProject\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T17:40:06.624235+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"99266a56-b7cf-4294-a290-72530e1371bc\",\"kind\":\"build\"},\"phase_id\":\"ImplementSpecWithClaudeCode\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T17:40:45.187518+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"99266a56-b7cf-4294-a290-72530e1371bc\",\"kind\":\"build\"},\"phase_id\":\"FeedbackLoopWithClaudeCode\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T17:43:10.615726+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"99266a56-b7cf-4294-a290-72530e1371bc\",\"kind\":\"build\"},\"phase_id\":\"AnalyzeAndPlanTests\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T17:43:10.852826+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"99266a56-b7cf-4294-a290-72530e1371bc\",\"kind\":\"build\"},\"phase_id\":\"GenerateAndRunTests\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T17:43:31.980822+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"99266a56-b7cf-4294-a290-72530e1371bc\",\"kind\":\"build\"},\"phase_id\":\"Done\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T17:43:32.006431+00:00"
             }
         ]
     }
