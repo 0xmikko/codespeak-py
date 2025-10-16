@@ -10,3 +10,5 @@ User can upload a graph in PNG / JPEG format, then backend analyses it and write
 
 I understand that probably, the system should have some great examples - to make mutliple-shot training, make a python file with list of examples, I can fill it manually.
 
+### Prediciton view
+When prediction is done, the app show show initial picture and humour predicion.
