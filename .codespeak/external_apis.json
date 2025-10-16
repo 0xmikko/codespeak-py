@@ -1,0 +1,27 @@
+[
+    {
+        "name": "openai",
+        "use_cases": [
+            {
+                "description": "Analyze uploaded financial graph images and generate creative technical analysis with humor",
+                "spec_source_quote": "User chatGPT and other AI-related agent libraries when needed to create a creative repsonses with graph."
+            },
+            {
+                "description": "Generate humorous financial commentary based on visual patterns detected in charts",
+                "spec_source_quote": "The best result - a graph with fun tech analysis and comments with great sens of humour."
+            }
+        ],
+        "config_parameters": [
+            {
+                "name": "OPENAI_API_KEY",
+                "kind": "token",
+                "guidance": "To obtain an OpenAI API key:\n\n1. Go to https://platform.openai.com/\n2. Sign up for an account or log in if you already have one\n3. Navigate to the API section by clicking on your profile in the top right corner\n4. Select 'View API keys' from the dropdown menu\n5. Click 'Create new secret key'\n6. Give your key a descriptive name (e.g., 'Financial Horoscope App')\n7. Copy the generated API key immediately (you won't be able to see it again)\n8. Store this key securely - it will be used to authenticate your requests to OpenAI's services\n\nNote: You'll need to add billing information to your OpenAI account to use the API beyond the free tier limits.",
+                "default": null
+            }
+        ],
+        "sdk_choice": {
+            "kind": "existing",
+            "uv_package_name": "openai"
+        }
+    }
+]
