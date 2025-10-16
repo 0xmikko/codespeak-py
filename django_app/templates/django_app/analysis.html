@@ -3,6 +3,14 @@
 {% block content %}
 <div class="card">
     <h2>{{ chart.name }}</h2>
+
+    {% if chart.image %}
+        <h3>Chart Image</h3>
+        <div style="margin-bottom: 20px; text-align: center;">
+            <img src="{{ chart.image.url }}" alt="{{ chart.name }}" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+        </div>
+    {% endif %}
+
     {% if analysis %}
         <h3>Visual Description</h3>
         <p>{{ analysis.visual_description }}</p>
