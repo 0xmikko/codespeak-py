@@ -2,193 +2,20 @@
 
 {% block content %}
 <div class="card">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h1 style="color: #667eea;">🎪 Chart Gallery</h1>
-        <a href="{% url 'upload_chart' %}" class="btn">📈 Upload New Chart</a>
-    </div>
-
-    <!-- Filter Options -->
-    <div style="margin-bottom: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
-        <a href="{% url 'gallery' %}"
-           class="btn {% if not status_filter %}btn-primary{% else %}btn-secondary{% endif %}"
-           style="font-size: 0.9rem; padding: 0.5rem 1rem;">
-            🌟 All Charts
-        </a>
-        <a href="?status=completed"
-           class="btn {% if status_filter == 'completed' %}btn-primary{% else %}btn-secondary{% endif %}"
-           style="font-size: 0.9rem; padding: 0.5rem 1rem;">
-            ✅ Completed
-        </a>
-        <a href="?status=processing"
-           class="btn {% if status_filter == 'processing' %}btn-primary{% else %}btn-secondary{% endif %}"
-           style="font-size: 0.9rem; padding: 0.5rem 1rem;">
-            🔄 Processing
-        </a>
-        <a href="?status=failed"
-           class="btn {% if status_filter == 'failed' %}btn-primary{% else %}btn-secondary{% endif %}"
-           style="font-size: 0.9rem; padding: 0.5rem 1rem;">
-            ❌ Failed
-        </a>
-    </div>
-</div>
-
-{% if charts %}
-    <div class="grid grid-3">
-        {% for chart in charts %}
-        <div class="card" style="padding: 0; overflow: hidden; transition: all 0.3s ease;"
-             onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.15)'"
-             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 40px rgba(0,0,0,0.1)'">
-
-            <!-- Image Container -->
-            <div style="position: relative; height: 200px; overflow: hidden;">
-                <img src="{{ chart.image.url }}" alt="{{ chart.name }}"
-                     style="width: 100%; height: 100%; object-fit: cover;">
-
-                <!-- Status Badge -->
-                <div style="position: absolute; top: 10px; right: 10px;">
-                    {% if chart.analysis_status == 'completed' %}
-                        <span style="background: rgba(72, 187, 120, 0.9); color: white; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.8rem; font-weight: 600;">
-                            ✅ Complete
-                        </span>
-                    {% elif chart.analysis_status == 'processing' %}
-                        <span style="background: rgba(102, 126, 234, 0.9); color: white; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.8rem; font-weight: 600;">
-                            🔄 Processing
-                        </span>
-                    {% elif chart.analysis_status == 'failed' %}
-                        <span style="background: rgba(245, 101, 101, 0.9); color: white; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.8rem; font-weight: 600;">
-                            ❌ Failed
-                        </span>
-                    {% else %}
-                        <span style="background: rgba(237, 137, 54, 0.9); color: white; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.8rem; font-weight: 600;">
-                            ⏳ Pending
-                        </span>
-                    {% endif %}
+    <h2>Gallery</h2>
+    {% if charts %}
+        <div class="grid">
+            {% for chart in charts %}
+                <div class="card">
+                    <h3>{{ chart.name }}</h3>
+                    <p>Status: {{ chart.analysis_status }}</p>
+                    <p>Uploaded: {{ chart.uploaded_at|date:"M d, Y" }}</p>
+                    <a href="{% url 'view_analysis' chart.id %}" class="btn">View</a>
                 </div>
-
-                <!-- Overlay for failed or processing charts -->
-                {% if chart.analysis_status != 'completed' %}
-                <div style="position: absolute; inset: 0; background: rgba(0, 0, 0, 0.3); display: flex; align-items: center; justify-content: center;">
-                    {% if chart.analysis_status == 'processing' %}
-                        <div style="color: white; text-align: center;">
-                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔄</div>
-                            <p style="font-weight: 600;">Analyzing...</p>
-                        </div>
-                    {% elif chart.analysis_status == 'failed' %}
-                        <div style="color: white; text-align: center;">
-                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">❌</div>
-                            <p style="font-weight: 600;">Analysis Failed</p>
-                        </div>
-                    {% endif %}
-                </div>
-                {% endif %}
-            </div>
-
-            <!-- Card Content -->
-            <div style="padding: 1.5rem;">
-                <h3 style="color: #667eea; margin-bottom: 0.5rem; font-size: 1.1rem;">
-                    {{ chart.name|truncatechars:40 }}
-                </h3>
-
-                <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">
-                    📅 {{ chart.uploaded_at|date:"M d, Y - H:i" }}
-                </p>
-
-                {% if chart.analysis_status == 'completed' and chart.analysis %}
-                    <div style="background: rgba(102, 126, 234, 0.05); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-                        <p style="font-size: 0.85rem; color: #333; line-height: 1.4; font-style: italic;">
-                            "{{ chart.analysis.pattern_analysis|truncatewords:12 }}"
-                        </p>
-                    </div>
-
-                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: #666; margin-bottom: 1rem;">
-                        <span>🎯 {{ chart.analysis.confidence_score|floatformat:1|mul:100 }}%</span>
-                        <span>⏱️ {{ chart.analysis.processing_time_seconds|floatformat:1 }}s</span>
-                    </div>
-                {% elif chart.analysis_status == 'failed' %}
-                    <div style="background: rgba(245, 101, 101, 0.1); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; text-align: center;">
-                        <p style="font-size: 0.9rem; color: #c53030;">
-                            Analysis failed - try uploading again
-                        </p>
-                    </div>
-                {% endif %}
-
-                <!-- Action Button -->
-                <div style="text-align: center;">
-                    {% if chart.analysis_status == 'completed' %}
-                        <a href="{% url 'view_analysis' chart.id %}" class="btn" style="font-size: 0.9rem; padding: 0.6rem 1.5rem; width: 100%;">
-                            🔍 View Analysis
-                        </a>
-                    {% elif chart.analysis_status == 'processing' %}
-                        <a href="{% url 'view_analysis' chart.id %}" class="btn btn-secondary" style="font-size: 0.9rem; padding: 0.6rem 1.5rem; width: 100%;">
-                            ⏳ Check Status
-                        </a>
-                    {% else %}
-                        <a href="{% url 'view_analysis' chart.id %}" class="btn btn-secondary" style="font-size: 0.9rem; padding: 0.6rem 1.5rem; width: 100%;">
-                            👁️ View Details
-                        </a>
-                    {% endif %}
-                </div>
-            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
-
-    <!-- Pagination could go here in the future -->
-
-{% else %}
-    <div class="card" style="text-align: center; padding: 4rem 2rem;">
-        <div style="font-size: 4rem; margin-bottom: 1rem;">📊</div>
-        <h2 style="color: #667eea; margin-bottom: 1rem;">
-            {% if status_filter %}
-                No {{ status_filter }} charts found
-            {% else %}
-                No charts uploaded yet
-            {% endif %}
-        </h2>
-        <p style="color: #666; font-size: 1.1rem; margin-bottom: 2rem;">
-            {% if status_filter %}
-                Try viewing all charts or upload a new one to get started.
-            {% else %}
-                Be the first to upload a chart and discover what our AI fortune teller sees!
-            {% endif %}
-        </p>
-
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-            {% if status_filter %}
-                <a href="{% url 'gallery' %}" class="btn btn-secondary">
-                    🌟 View All Charts
-                </a>
-            {% endif %}
-            <a href="{% url 'upload_chart' %}" class="btn">
-                📈 Upload Chart
-            </a>
-        </div>
-    </div>
-{% endif %}
-
-<div class="card" style="text-align: center; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);">
-    <h3 style="color: #667eea; margin-bottom: 1rem;">🎭 Gallery Stats</h3>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
-        <div>
-            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
-            <div style="font-size: 1.5rem; font-weight: bold; color: #667eea;">{{ charts.count }}</div>
-            <div style="font-size: 0.9rem; color: #666;">Total Charts</div>
-        </div>
-        <!-- Could add more stats here -->
-    </div>
-</div>
-
-{% if charts.exists %}
-<script>
-// Auto-refresh if there are processing charts
-{% for chart in charts %}
-    {% if chart.analysis_status == 'processing' %}
-        setTimeout(function() {
-            location.reload();
-        }, 15000); // Refresh every 15 seconds if there are processing charts
-        break;
+    {% else %}
+        <p>No charts uploaded yet.</p>
     {% endif %}
-{% endfor %}
-</script>
-{% endif %}
+</div>
 {% endblock %}

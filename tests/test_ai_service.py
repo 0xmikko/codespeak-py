@@ -161,15 +161,21 @@ class TestGetFewShotExamples(TestCase):
     @pytest.mark.timeout(30)
     def test_get_few_shot_examples_sample_limit(self):
         """Test that sample is limited to 3 examples"""
-        with patch('django_app.ai_service.random.sample') as mock_sample, \
-             patch('django_app.ai_service.CHART_ANALYSIS_EXAMPLES', [1, 2, 3, 4, 5]):
+        mock_examples = [
+            {'visual_description': f'Visual {i}', 'pattern_analysis': f'Pattern {i}',
+             'humorous_prediction': f'Prediction {i}', 'technical_explanation': f'Technical {i}'}
+            for i in range(5)
+        ]
 
-            mock_sample.return_value = [1, 2, 3]
+        with patch('django_app.ai_service.random.sample') as mock_sample, \
+             patch('django_app.ai_service.CHART_ANALYSIS_EXAMPLES', mock_examples):
+
+            mock_sample.return_value = mock_examples[:3]  # Return first 3 examples
 
             get_few_shot_examples()
 
             # Should sample min(3, len(examples))
-            mock_sample.assert_called_once_with([1, 2, 3, 4, 5], 3)
+            mock_sample.assert_called_once_with(mock_examples, 3)
 
 
 class TestCreateAnalysisPrompt(TestCase):
@@ -291,14 +297,24 @@ Technical line 2"""
 
     @pytest.mark.timeout(30)
     def test_parse_analysis_response_parse_error(self):
-        """Test parsing when an exception occurs"""
+        """Test parsing when an exception occurs during splitting"""
         service = ChartAnalysisService.__new__(ChartAnalysisService)  # Skip __init__
 
-        # Simulate parsing error by passing None
-        with patch.object(service, '_parse_analysis_response', wraps=service._parse_analysis_response):
-            # Use empty content that will work, then patch to cause error
-            with patch('builtins.str.strip', side_effect=Exception('Parse error')):
-                result = service._parse_analysis_response('any content')
+        # Simulate parsing error by patching split method
+        original_method = service._parse_analysis_response
+
+        def mock_parse_with_error(content):
+            # Simulate an error in the parsing logic
+            try:
+                # Force an error during processing
+                raise Exception('Parse error')
+            except Exception:
+                # This should trigger the exception handling in the method
+                return original_method(content)
+
+        # Patch the split method to cause an error
+        with patch.object(str, 'split', side_effect=Exception('Parse error')):
+            result = service._parse_analysis_response('any content')
 
         # Should handle the error gracefully
         self.assertEqual(result['visual_description'], 'any content')

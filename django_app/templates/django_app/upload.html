@@ -1,137 +1,19 @@
 {% extends 'django_app/base.html' %}
 
 {% block content %}
-<div class="card" style="text-align: center; margin-bottom: 2rem;">
-    <h1 style="color: #667eea; margin-bottom: 1rem;">📈 Upload Your Chart</h1>
-    <p style="color: #666; font-size: 1.1rem;">
-        Upload your financial chart and let our AI crystal ball reveal the hidden patterns!
-    </p>
-</div>
-
-<div class="card" style="max-width: 600px; margin: 0 auto;">
-    <form method="post" enctype="multipart/form-data" id="uploadForm">
+<div class="card">
+    <h2>Upload Chart</h2>
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-
-        <div style="margin-bottom: 2rem;">
-            <label for="chart_name" style="display: block; font-weight: 600; color: #333; margin-bottom: 0.5rem;">
-                📝 Chart Name
-            </label>
-            <input type="text" id="chart_name" name="chart_name"
-                   placeholder="e.g., AAPL Weekly Chart, Bitcoin Daily, SPY Analysis..."
-                   style="width: 100%; padding: 1rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1rem; transition: border-color 0.3s;"
-                   onfocus="this.style.borderColor='#667eea'"
-                   onblur="this.style.borderColor='#e2e8f0'">
+        <div>
+            <label>Chart Name:</label>
+            <input type="text" name="chart_name" class="form-control">
         </div>
-
-        <div style="margin-bottom: 2rem;">
-            <label for="chart_image" style="display: block; font-weight: 600; color: #333; margin-bottom: 0.5rem;">
-                🖼️ Chart Image (PNG or JPEG, max 10MB)
-            </label>
-
-            <div id="dropZone"
-                 style="border: 3px dashed #cbd5e0; border-radius: 15px; padding: 3rem; text-align: center; background: #f8fafc; cursor: pointer; transition: all 0.3s;"
-                 onclick="document.getElementById('chart_image').click()">
-
-                <div id="dropContent">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
-                    <p style="color: #667eea; font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">
-                        Click to browse or drag & drop your chart
-                    </p>
-                    <p style="color: #666; font-size: 0.9rem;">
-                        Supported: PNG, JPEG files up to 10MB
-                    </p>
-                </div>
-
-                <div id="filePreview" style="display: none;">
-                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">✅</div>
-                    <p id="fileName" style="color: #667eea; font-weight: 600;"></p>
-                    <p style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">
-                        Click to change file
-                    </p>
-                </div>
-            </div>
-
-            <input type="file" id="chart_image" name="chart_image"
-                   accept="image/png,image/jpeg,image/jpg"
-                   style="display: none;" required>
+        <div>
+            <label>Chart Image:</label>
+            <input type="file" name="chart_image" accept=".png,.jpg,.jpeg" required>
         </div>
-
-        <div style="text-align: center;">
-            <button type="submit" class="btn" style="font-size: 1.1rem; padding: 1rem 3rem;" id="submitBtn">
-                🔮 Analyze Chart
-            </button>
-        </div>
-
-        <div id="loadingMessage" style="display: none; text-align: center; margin-top: 2rem; color: #667eea;">
-            <div style="font-size: 2rem; margin-bottom: 1rem;">🔄</div>
-            <p style="font-weight: 600;">Consulting the AI crystal ball...</p>
-            <p style="font-size: 0.9rem; color: #666;">This may take a moment while we analyze your chart.</p>
-        </div>
+        <button type="submit" class="btn">Upload</button>
     </form>
 </div>
-
-<div class="card" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);">
-    <h3 style="color: #667eea; margin-bottom: 1rem;">💡 Tips for Best Results</h3>
-    <ul style="color: #666; line-height: 1.8; padding-left: 1.5rem;">
-        <li><strong>Clear Images:</strong> Use high-resolution, well-lit charts</li>
-        <li><strong>Full Charts:</strong> Include time periods, price levels, and indicators if possible</li>
-        <li><strong>Financial Charts:</strong> Stock prices, crypto, forex, commodities work best</li>
-        <li><strong>Have Fun:</strong> Remember, this is entertainment - not financial advice! 🎭</li>
-    </ul>
-</div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const dropZone = document.getElementById('dropZone');
-    const fileInput = document.getElementById('chart_image');
-    const dropContent = document.getElementById('dropContent');
-    const filePreview = document.getElementById('filePreview');
-    const fileName = document.getElementById('fileName');
-    const form = document.getElementById('uploadForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const loadingMessage = document.getElementById('loadingMessage');
-
-    // File input change handler
-    fileInput.addEventListener('change', function(e) {
-        if (e.target.files.length > 0) {
-            const file = e.target.files[0];
-            fileName.textContent = file.name;
-            dropContent.style.display = 'none';
-            filePreview.style.display = 'block';
-            dropZone.style.borderColor = '#667eea';
-            dropZone.style.background = 'rgba(102, 126, 234, 0.05)';
-        }
-    });
-
-    // Drag and drop handlers
-    dropZone.addEventListener('dragover', function(e) {
-        e.preventDefault();
-        dropZone.style.borderColor = '#667eea';
-        dropZone.style.background = 'rgba(102, 126, 234, 0.1)';
-    });
-
-    dropZone.addEventListener('dragleave', function(e) {
-        e.preventDefault();
-        dropZone.style.borderColor = '#cbd5e0';
-        dropZone.style.background = '#f8fafc';
-    });
-
-    dropZone.addEventListener('drop', function(e) {
-        e.preventDefault();
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-            fileInput.files = files;
-            fileInput.dispatchEvent(new Event('change'));
-        }
-        dropZone.style.borderColor = '#cbd5e0';
-        dropZone.style.background = '#f8fafc';
-    });
-
-    // Form submission handler
-    form.addEventListener('submit', function(e) {
-        submitBtn.style.display = 'none';
-        loadingMessage.style.display = 'block';
-    });
-});
-</script>
 {% endblock %}
