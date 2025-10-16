@@ -336,18 +336,21 @@ Technical Explanation: """
         """Test parsing with section transitions to cover line 196"""
         service = ChartAnalysisService.__new__(ChartAnalysisService)  # Skip __init__
 
-        response_content = """Visual Description: First visual content
+        # This response has Pattern Analysis first, then Visual Description
+        # When we hit Visual Description, line 196 should be triggered to save the previous section
+        response_content = """Pattern Analysis: Some pattern content
+More pattern content here
+Visual Description: First visual content
 More visual content here
-Pattern Analysis: Pattern content here
-Some more pattern content
 Humorous Prediction: Funny content
 Technical Explanation: Technical content here"""
 
         result = service._parse_analysis_response(response_content)
 
-        # This should trigger line 196 where current_section and current_content are processed
+        # This should trigger line 196 where current_section (pattern_analysis) and current_content are processed
+        # when encountering "Visual Description:" header
+        self.assertEqual(result['pattern_analysis'], 'Some pattern content More pattern content here')
         self.assertEqual(result['visual_description'], 'First visual content More visual content here')
-        self.assertEqual(result['pattern_analysis'], 'Pattern content here Some more pattern content')
         self.assertEqual(result['humorous_prediction'], 'Funny content')
         self.assertEqual(result['technical_explanation'], 'Technical content here')
 
