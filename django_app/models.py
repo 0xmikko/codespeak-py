@@ -55,7 +55,7 @@ class ChartAnalysis(models.Model):
     processing_time_seconds = models.FloatField(null=True, blank=True, help_text="Time taken to generate analysis")
 
     # AI model info
-    ai_model_used = models.CharField(max_length=100, default="gpt-4-vision-preview")
+    ai_model_used = models.CharField(max_length=100, default="gpt-4o")
     confidence_score = models.FloatField(null=True, blank=True, help_text="AI confidence in analysis (0-1)")
 
     class Meta:
