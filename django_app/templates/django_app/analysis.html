@@ -1,0 +1,161 @@
+{% extends 'django_app/base.html' %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 style="color: #667eea;">🔮 Chart Analysis</h1>
+        <a href="{% url 'gallery' %}" class="btn btn-secondary">← Back to Gallery</a>
+    </div>
+
+    <div class="grid grid-2">
+        <!-- Chart Image -->
+        <div>
+            <div style="border: 2px solid #e2e8f0; border-radius: 10px; overflow: hidden; margin-bottom: 1rem;">
+                <img src="{{ chart.image.url }}" alt="{{ chart.name }}"
+                     style="width: 100%; height: 400px; object-fit: contain; background: #f8fafc;">
+            </div>
+
+            <div style="text-align: center; padding: 1rem; background: rgba(102, 126, 234, 0.05); border-radius: 10px;">
+                <h3 style="color: #667eea; margin-bottom: 0.5rem;">{{ chart.name }}</h3>
+                <p style="color: #666; font-size: 0.9rem;">
+                    Uploaded: {{ chart.uploaded_at|date:"M d, Y - H:i" }}
+                </p>
+
+                <div style="margin-top: 1rem;">
+                    {% if chart.analysis_status == 'completed' %}
+                        <span style="background: rgba(72, 187, 120, 0.1); color: #2d7d4d; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.8rem;">
+                            ✅ Analysis Complete
+                        </span>
+                    {% elif chart.analysis_status == 'processing' %}
+                        <span style="background: rgba(102, 126, 234, 0.1); color: #667eea; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.8rem;">
+                            🔄 Processing...
+                        </span>
+                    {% elif chart.analysis_status == 'failed' %}
+                        <span style="background: rgba(245, 101, 101, 0.1); color: #c53030; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.8rem;">
+                            ❌ Analysis Failed
+                        </span>
+                    {% else %}
+                        <span style="background: rgba(237, 137, 54, 0.1); color: #dd6b20; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.8rem;">
+                            ⏳ Pending
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis Results -->
+        <div>
+            {% if analysis %}
+                <div style="background: white; border-radius: 10px; padding: 0; border: 2px solid #e2e8f0;">
+                    <!-- Visual Description -->
+                    <div style="padding: 1.5rem; border-bottom: 1px solid #e2e8f0;">
+                        <h3 style="color: #667eea; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            👁️ Visual Description
+                        </h3>
+                        <p style="line-height: 1.6; color: #333;">{{ analysis.visual_description }}</p>
+                    </div>
+
+                    <!-- Pattern Analysis -->
+                    <div style="padding: 1.5rem; border-bottom: 1px solid #e2e8f0; background: rgba(102, 126, 234, 0.02);">
+                        <h3 style="color: #667eea; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            📊 Pattern Analysis
+                        </h3>
+                        <p style="line-height: 1.6; color: #333; font-weight: 500;">{{ analysis.pattern_analysis }}</p>
+                    </div>
+
+                    <!-- Humorous Prediction -->
+                    <div style="padding: 1.5rem; border-bottom: 1px solid #e2e8f0;">
+                        <h3 style="color: #667eea; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            🎭 Market Prediction
+                        </h3>
+                        <p style="line-height: 1.6; color: #333; font-style: italic;">{{ analysis.humorous_prediction }}</p>
+                    </div>
+
+                    <!-- Technical Explanation -->
+                    <div style="padding: 1.5rem;">
+                        <h3 style="color: #667eea; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            🔬 Technical Analysis
+                        </h3>
+                        <p style="line-height: 1.6; color: #333;">{{ analysis.technical_explanation }}</p>
+                    </div>
+                </div>
+
+                <!-- Analysis Metadata -->
+                <div style="margin-top: 1rem; padding: 1rem; background: rgba(102, 126, 234, 0.05); border-radius: 10px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; font-size: 0.9rem;">
+                        <div>
+                            <strong style="color: #667eea;">⏱️ Processing Time:</strong><br>
+                            {{ analysis.processing_time_seconds|floatformat:2 }}s
+                        </div>
+                        <div>
+                            <strong style="color: #667eea;">🎯 Confidence:</strong><br>
+                            {{ analysis.confidence_score|floatformat:1|mul:100 }}%
+                        </div>
+                        <div>
+                            <strong style="color: #667eea;">🤖 AI Model:</strong><br>
+                            {{ analysis.ai_model_used }}
+                        </div>
+                        <div>
+                            <strong style="color: #667eea;">📅 Analyzed:</strong><br>
+                            {{ analysis.created_at|date:"M d, H:i" }}
+                        </div>
+                    </div>
+                </div>
+
+            {% else %}
+                <div style="text-align: center; padding: 3rem; background: rgba(237, 137, 54, 0.05); border-radius: 10px;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">⏳</div>
+                    <h3 style="color: #dd6b20; margin-bottom: 1rem;">No Analysis Available</h3>
+
+                    {% if chart.analysis_status == 'processing' %}
+                        <p style="color: #666;">
+                            The AI is currently analyzing your chart. Please refresh the page in a few moments.
+                        </p>
+                        <button onclick="location.reload()" class="btn" style="margin-top: 1rem;">
+                            🔄 Refresh Page
+                        </button>
+                    {% elif chart.analysis_status == 'failed' %}
+                        <p style="color: #666; margin-bottom: 1rem;">
+                            The analysis failed. This might be due to an unclear image or API issues.
+                        </p>
+                        <a href="{% url 'upload_chart' %}" class="btn">
+                            📤 Try Another Chart
+                        </a>
+                    {% else %}
+                        <p style="color: #666; margin-bottom: 1rem;">
+                            Analysis is pending. Please wait while our AI processes your chart.
+                        </p>
+                        <button onclick="location.reload()" class="btn" style="margin-top: 1rem;">
+                            🔄 Check Status
+                        </button>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Share/Actions -->
+<div class="card" style="text-align: center; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);">
+    <h3 style="color: #667eea; margin-bottom: 1rem;">📤 Share This Analysis</h3>
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="{% url 'api_analysis' chart.id %}" class="btn btn-secondary" target="_blank">
+            📋 View JSON Data
+        </a>
+        <a href="{% url 'upload_chart' %}" class="btn">
+            📈 Analyze Another Chart
+        </a>
+    </div>
+</div>
+
+{% if analysis %}
+<script>
+// Auto-refresh for processing status
+{% if chart.analysis_status == 'processing' %}
+setTimeout(function() {
+    location.reload();
+}, 10000); // Refresh every 10 seconds if still processing
+{% endif %}
+</script>
+{% endif %}
+{% endblock %}
