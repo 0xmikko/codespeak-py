@@ -73,7 +73,7 @@
         "test_reports": "test_reports.txt",
         "change_request": "",
         "implemented_change_requests": "implemented_change_requests.json",
-        "spec_diff": "--- +++ @@ -6,4 +6,7 @@ ## User flow\n User can upload a graph in PNG / JPEG format, then backend analyses it and write an explanation in format of technical analysys. Something like \"I can see a lion figure on the graph, so...\". User chatGPT and other AI-related agent libraries when needed to create a creative repsonses with graph. The best result - a graph with fun tech analysis and comments with great sens of humour. \n \n-I understand that probably, the system should have some great examples - to make mutliple-shot training, make a python file with list of examples, I can fill it manually.+I understand that probably, the system should have some great examples - to make mutliple-shot training, make a python file with list of examples, I can fill it manually.\n+\n+### Prediciton view\n+When prediction is done, the app show show initial picture and humour predicion."
+        "spec_diff": "--- +++ @@ -9,4 +9,4 @@ I understand that probably, the system should have some great examples - to make mutliple-shot training, make a python file with list of examples, I can fill it manually.\n \n ### Prediciton view\n-When prediction is done, the app show show initial picture and humour predicion.+When prediction is done, the app show show initial picture and Humorous Prediction only"
     },
     "phase_manager": {
         "history": [
@@ -188,6 +188,10 @@
             {
                 "checkpoint": "{\"run\":{\"id\":\"99266a56-b7cf-4294-a290-72530e1371bc\",\"kind\":\"build\"},\"phase_id\":\"Init\",\"additional_id\":null}",
                 "timestamp": "2025-10-16T17:39:35.946211+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"99266a56-b7cf-4294-a290-72530e1371bc\",\"kind\":\"build\"},\"phase_id\":\"ProcessSpec\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T17:39:35.995768+00:00"
             }
         ]
     }
