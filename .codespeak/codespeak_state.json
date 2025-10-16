@@ -1,0 +1,51 @@
+{
+    "meta": {
+        "schema": {
+            "spec": {
+                "type": "file",
+                "relative_path": "spec.processed.md",
+                "format": "text",
+                "by_phase": "ProcessSpec"
+            },
+            "external_apis": {
+                "type": "file",
+                "relative_path": "external_apis.json",
+                "format": "json",
+                "by_phase": "AnalyzeExternalApis"
+            },
+            "methods_to_test": {
+                "type": "file",
+                "relative_path": "methods_to_test.json",
+                "format": "json",
+                "by_phase": "AnalyzeAndPlanTests"
+            },
+            "methods_to_test_raw": {
+                "type": "file",
+                "relative_path": "methods_to_test_raw.json",
+                "format": "json",
+                "by_phase": "AnalyzeAndPlanTests"
+            },
+            "test_reports": {
+                "type": "file",
+                "relative_path": "test_reports.txt",
+                "format": "text",
+                "by_phase": "GenerateAndRunTests"
+            },
+            "sha_to_checkpoint": {
+                "type": "file",
+                "relative_path": "sha_to_checkpoint.json",
+                "format": "json"
+            }
+        },
+        "version": "0.2.0"
+    },
+    "phases_state": {},
+    "phase_manager": {
+        "history": [
+            {
+                "checkpoint": "{\"run\":{\"id\":\"53f3acd1-9390-43c7-9805-6da489785253\",\"kind\":\"build\"},\"phase_id\":\"Init\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T11:28:20.809405+00:00"
+            }
+        ]
+    }
+}
