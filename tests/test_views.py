@@ -300,6 +300,28 @@ class TestHandleChartUploadView(TestCase):
             analysis = ChartAnalysis.objects.get(chart=chart)
             self.assertIn('Analysis failed', analysis.visual_description)
 
+    @pytest.mark.timeout(30)
+    def test_handle_chart_upload_general_exception(self):
+        """Test upload when a general exception occurs (lines 116-118)"""
+        # Mock the entire try block to raise a general exception
+        with patch('django_app.models.ChartUpload.objects.create') as mock_create:
+            mock_create.side_effect = Exception('Database error')
+
+            uploaded_file = self._create_test_image()
+
+            response = self.client.post(reverse('upload_chart'), {
+                'chart_image': uploaded_file,
+                'chart_name': 'Test Chart'
+            })
+
+            # Should redirect back to upload page
+            self.assertEqual(response.status_code, 302)
+            self.assertTrue(response.url.endswith(reverse('upload_chart')))
+
+            # Should have error message
+            messages = list(get_messages(response.wsgi_request))
+            self.assertTrue(any('Upload failed' in str(m) and 'Database error' in str(m) for m in messages))
+
 
 class TestViewAnalysisView(TestCase):
     """Test kind: endpoint_tests. Original method FQN: view_analysis"""

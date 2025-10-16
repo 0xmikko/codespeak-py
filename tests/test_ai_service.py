@@ -331,6 +331,75 @@ Technical Explanation: """
         self.assertIn('speechless', result['humorous_prediction'])
         self.assertIn('speechless', result['technical_explanation'])
 
+    @pytest.mark.timeout(30)
+    def test_parse_analysis_response_section_transitions(self):
+        """Test parsing with section transitions to cover line 196"""
+        service = ChartAnalysisService.__new__(ChartAnalysisService)  # Skip __init__
+
+        response_content = """Visual Description: First visual content
+More visual content here
+Pattern Analysis: Pattern content here
+Some more pattern content
+Humorous Prediction: Funny content
+Technical Explanation: Technical content here"""
+
+        result = service._parse_analysis_response(response_content)
+
+        # This should trigger line 196 where current_section and current_content are processed
+        self.assertEqual(result['visual_description'], 'First visual content More visual content here')
+        self.assertEqual(result['pattern_analysis'], 'Pattern content here Some more pattern content')
+        self.assertEqual(result['humorous_prediction'], 'Funny content')
+        self.assertEqual(result['technical_explanation'], 'Technical content here')
+
+    @pytest.mark.timeout(30)
+    def test_analyze_chart_success_coverage(self):
+        """Test analyze_chart method successful path to cover lines 149, 152, 155-157, 159"""
+        # Mock the successful API response
+        mock_response = MagicMock()
+        mock_response.choices = [MagicMock()]
+        mock_response.choices[0].message.content = """Visual Description: Test description
+Pattern Analysis: Test pattern
+Humorous Prediction: Test prediction
+Technical Explanation: Test explanation"""
+
+        with patch('django_app.ai_service._read_config_parameter', return_value='test-api-key'), \
+             patch('django_app.ai_service.OpenAI') as mock_openai:
+
+            mock_client = MagicMock()
+            mock_client.chat.completions.create.return_value = mock_response
+            mock_openai.return_value = mock_client
+
+            service = ChartAnalysisService()
+
+            # Create a temporary test file
+            import tempfile
+            with tempfile.NamedTemporaryFile(suffix='.jpg', delete=False) as temp_file:
+                temp_file.write(b'test image content')
+                temp_path = temp_file.name
+
+            try:
+                result = service.analyze_chart(temp_path)
+
+                # Verify the successful path coverage
+                self.assertEqual(result['visual_description'], 'Test description')
+                self.assertEqual(result['pattern_analysis'], 'Test pattern')
+                self.assertEqual(result['humorous_prediction'], 'Test prediction')
+                self.assertEqual(result['technical_explanation'], 'Test explanation')
+
+                # Lines 155-157, 159: processing time and confidence score should be set
+                self.assertIn('processing_time_seconds', result)
+                self.assertIn('confidence_score', result)
+                self.assertIsInstance(result['processing_time_seconds'], (int, float))
+                self.assertIsInstance(result['confidence_score'], (int, float))
+                self.assertGreaterEqual(result['confidence_score'], 0.85)
+                self.assertLessEqual(result['confidence_score'], 0.98)
+
+            finally:
+                # Clean up temp file
+                import os
+                if os.path.exists(temp_path):
+                    os.unlink(temp_path)
+
 
 class TestChartAnalysisServiceExternalAPI(TestCase):
     """Test kind: external_api_tests. Original method FQN: ChartAnalysisService.analyze_chart"""
