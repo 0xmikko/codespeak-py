@@ -61,7 +61,9 @@
             "web_application": true
         },
         "external_apis": "external_apis.json",
-        "commit_message": "Implement Financial Horoscope AI chart analysis service"
+        "commit_message": "Implement Financial Horoscope AI chart analysis service",
+        "methods_to_test_raw": "methods_to_test_raw.json",
+        "methods_to_test": "methods_to_test.json"
     },
     "phase_manager": {
         "history": [
@@ -96,6 +98,10 @@
             {
                 "checkpoint": "{\"run\":{\"id\":\"53f3acd1-9390-43c7-9805-6da489785253\",\"kind\":\"build\"},\"phase_id\":\"FeedbackLoopWithClaudeCode\",\"additional_id\":null}",
                 "timestamp": "2025-10-16T11:36:18.542115+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"53f3acd1-9390-43c7-9805-6da489785253\",\"kind\":\"build\"},\"phase_id\":\"AnalyzeAndPlanTests\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T11:36:39.827456+00:00"
             }
         ]
     }
