@@ -72,7 +72,8 @@
         "methods_to_test": "methods_to_test.json",
         "test_reports": "test_reports.txt",
         "change_request": "",
-        "implemented_change_requests": "implemented_change_requests.json"
+        "implemented_change_requests": "implemented_change_requests.json",
+        "spec_diff": "--- +++ @@ -6,4 +6,7 @@ ## User flow\n User can upload a graph in PNG / JPEG format, then backend analyses it and write an explanation in format of technical analysys. Something like \"I can see a lion figure on the graph, so...\". User chatGPT and other AI-related agent libraries when needed to create a creative repsonses with graph. The best result - a graph with fun tech analysis and comments with great sens of humour. \n \n-I understand that probably, the system should have some great examples - to make mutliple-shot training, make a python file with list of examples, I can fill it manually.+I understand that probably, the system should have some great examples - to make mutliple-shot training, make a python file with list of examples, I can fill it manually.\n+\n+### Prediciton view\n+When prediction is done, the app show show initial picture and humour predicion."
     },
     "phase_manager": {
         "history": [
@@ -143,6 +144,10 @@
             {
                 "checkpoint": "{\"run\":{\"id\":\"a8430b3b-abcd-42ea-9f29-1cba6d34b0f7\",\"kind\":\"build\"},\"phase_id\":\"Init\",\"additional_id\":null}",
                 "timestamp": "2025-10-16T16:51:23.250517+00:00"
+            },
+            {
+                "checkpoint": "{\"run\":{\"id\":\"a8430b3b-abcd-42ea-9f29-1cba6d34b0f7\",\"kind\":\"build\"},\"phase_id\":\"ProcessSpec\",\"additional_id\":null}",
+                "timestamp": "2025-10-16T16:51:23.309214+00:00"
             }
         ]
     }
