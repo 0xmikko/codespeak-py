@@ -465,7 +465,7 @@ class TestApiAnalysisView(TestCase):
             technical_explanation="API test explanation",
             processing_time_seconds=2.5,
             confidence_score=0.95,
-            ai_model_used="gpt-4-vision-preview"
+            ai_model_used="gpt-4o"
         )
 
         response = self.client.get(reverse('api_analysis', args=[self.chart.id]))

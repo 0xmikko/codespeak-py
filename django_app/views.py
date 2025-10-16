@@ -85,7 +85,7 @@ def handle_chart_upload(request):
                 technical_explanation=analysis_results['technical_explanation'],
                 processing_time_seconds=analysis_results['processing_time_seconds'],
                 confidence_score=analysis_results['confidence_score'],
-                ai_model_used="gpt-4-vision-preview"
+                ai_model_used="gpt-4o"
             )
 
             chart_upload.analysis_status = 'completed'
