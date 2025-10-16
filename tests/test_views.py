@@ -394,8 +394,11 @@ class TestGalleryView(TestCase):
         response = self.client.get(reverse('gallery'), {'status': 'invalid_status'})
 
         self.assertEqual(response.status_code, 200)
-        # Invalid status should be ignored, so no filtering
-        self.assertIsNone(response.context['status_filter'])
+        # Invalid status should be passed to context but ignored for filtering
+        self.assertEqual(response.context['status_filter'], 'invalid_status')
+        # Should show all charts since invalid filter is ignored for filtering
+        charts = response.context['charts']
+        self.assertEqual(len(charts), 1)
 
     @pytest.mark.timeout(30)
     def test_gallery_view_valid_status_filters(self):

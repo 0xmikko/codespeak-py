@@ -297,28 +297,21 @@ Technical line 2"""
 
     @pytest.mark.timeout(30)
     def test_parse_analysis_response_parse_error(self):
-        """Test parsing when an exception occurs during splitting"""
+        """Test parsing when an exception occurs during processing"""
         service = ChartAnalysisService.__new__(ChartAnalysisService)  # Skip __init__
 
-        # Simulate parsing error by patching split method
-        original_method = service._parse_analysis_response
+        # Create a content that will trigger the exception handling in _parse_analysis_response
+        # We'll create a malformed content that causes issues in the parsing loop
+        malformed_content = "Visual Description: Test\nSome random line that doesn't match patterns"
 
-        def mock_parse_with_error(content):
-            # Simulate an error in the parsing logic
-            try:
-                # Force an error during processing
-                raise Exception('Parse error')
-            except Exception:
-                # This should trigger the exception handling in the method
-                return original_method(content)
+        # Mock the internal processing to force an exception
+        with patch('builtins.len', side_effect=Exception('Parse error')):
+            result = service._parse_analysis_response(malformed_content)
 
-        # Patch the split method to cause an error
-        with patch.object(str, 'split', side_effect=Exception('Parse error')):
-            result = service._parse_analysis_response('any content')
-
-        # Should handle the error gracefully
-        self.assertEqual(result['visual_description'], 'any content')
+        # Should handle the error gracefully by using the raw content
+        self.assertEqual(result['visual_description'], malformed_content)
         self.assertIn('Parsing Error', result['pattern_analysis'])
+        self.assertIn('parser needs more coffee', result['technical_explanation'])
 
     @pytest.mark.timeout(30)
     def test_parse_analysis_response_empty_fields(self):
